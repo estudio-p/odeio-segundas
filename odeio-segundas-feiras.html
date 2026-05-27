@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odeio segundas-feiras! | Estúdio P</title>
+    <!-- Carregar fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #be0a0a;
+            --bg-color: #f8f8f8;
+            --text-dark: #1a1a1a;
+            --text-light: #666666;
+            --white: #ffffff;
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        /* Usando a fonte pedida (fallback para Anton ou impacto) */
+        @font-face {
+            font-family: 'Pagkaki Full';
+            src: local('Pagkaki Full'), local('Impact');
+            font-weight: bold;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .title-font {
+            /* Fallback font system to approximate Pagkaki Full */
+            font-family: 'Pagkaki Full', 'Anton', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            line-height: 1.1;
+        }
+
+        header {
+            background-color: var(--white);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--primary-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-text { font-family: 'Poppins'; }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+        
+        .hero h1 span {
+            color: var(--primary-color);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+        }
+
+        /* BARÓMETRO */
+        .barometer-section {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 80px;
+        }
+
+        .barometer-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .barometer-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .interaction-box {
+            display: flex;
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+            position: relative;
+        }
+
+        .interaction-box input {
+            flex: 1;
+            padding: 15px 25px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .interaction-box input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 15px 30px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+        }
+
+        .btn:hover {
+            background-color: #9a0808;
+            transform: translateY(-2px);
+        }
+
+        .shredder-animation {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--primary-color);
+            opacity: 0;
+            pointer-events: none;
+            border-radius: var(--border-radius);
+            z-index: 10;
+        }
+
+        @keyframes shred {
+            0% { opacity: 1; transform: scale(1); filter: blur(0px); }
+            50% { filter: blur(2px); transform: scale(0.95); }
+            100% { opacity: 0; transform: scale(0.8) translateY(20px); filter: blur(5px); }
+        }
+
+        .is-shredding {
+            animation: shred 1s ease forwards;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
+
+        /* VODCAST SECTION */
+        .vodcast-section {
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: #e0e0e0;
+        }
+
+        .grid-playlist {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .video-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .video-thumbnail {
+            position: relative;
+            height: 200px;
+            background-color: #ddd;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-thumbnail::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.3);
+            transition: var(--transition);
+        }
+
+        .video-card:hover .video-thumbnail::before {
+            background: rgba(0,0,0,0.1);
+        }
+
+        .play-btn {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+            transition: var(--transition);
+        }
+
+        .play-btn::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 10px 0 10px 16px;
+            border-color: transparent transparent transparent var(--white);
+            margin-left: 4px;
+        }
+
+        .video-card:hover .play-btn {
+            transform: scale(1.1);
+        }
+
+        .video-info {
+            padding: 20px;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            background: var(--bg-color);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .video-info h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: none;
+            margin-bottom: 10px;
+        }
+
+        .video-info p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* BRANDED CONTENT SECTION */
+        .articles-section {
+            margin-bottom: 60px;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .article-card {
+            display: flex;
+            flex-direction: column;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+        .article-card:hover {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .article-image {
+            height: 250px;
+            background-color: #eee;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .article-content {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .sponsor-tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .sponsor-tag::before {
+            content: 'Sponsored';
+            background: #eee;
+            padding: 3px 8px;
+            border-radius: 4px;
+            color: #888;
+            font-size: 0.65rem;
+        }
+
+        .article-content h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-transform: none;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .article-content p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            flex: 1;
+        }
+
+        .read-more {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background: var(--text-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+        
+        .footer-logo {
+            font-family: 'Pagkaki Full', 'Anton', sans-serif;
+            font-size: 2rem;
+            color: var(--white);
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .interaction-box {
+                flex-direction: column;
+            }
+            .barometer-section {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo title-font">
+            ESTÚDIO P <span style="color: var(--text-light); font-size: 1rem;" class="logo-text">| Branded Content</span>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <!-- HERO -->
+        <section class="hero">
+            <h1>Odeio <span>segundas-feiras!</span></h1>
+            <p>A terapia de choque que transforma a ansiedade urbana e os nossos maiores ódios de estimação num exercício de autoconhecimento (e na rampa de lançamento para a solução).</p>
+        </section>
+
+        <!-- BARÓMETRO DA IRRITAÇÃO -->
+        <section class="barometer-section">
+            <div class="barometer-header">
+                <h2>Barómetro da Irritação</h2>
+                <p>O que mais o tirou do sério esta manhã? Desabafe connosco e veja como se compara com o resto do país.</p>
+            </div>
+
+            <div class="interaction-box" id="interactionBox">
+                <input type="text" id="odioInput" placeholder="Ex: Reuniões que podiam ser um email..." autocomplete="off">
+                <button class="btn" onclick="submitOdio()">Desabafar</button>
+                <div class="shredder-animation" id="shredder">Tensão libertada! A atualizar barómetro...</div>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="barometerChart"></canvas>
+            </div>
+        </section>
+
+        <!-- VODCAST PLAYLIST -->
+        <section class="vodcast-section">
+            <h2 class="section-title">O Confessionário</h2>
+            <div class="grid-playlist">
+                
+                <div class="video-card">
+                    <div class="video-thumbnail" style="background-image: url('https://images.unsplash.com/photo-1510265236892-329bfd7de7a1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');">
+                        <div class="play-btn"></div>
+                    </div>
+                    <div class="video-info">
+                        <span class="tag">Episódio 1</span>
+                        <h3>O Trânsito na Ponte</h3>
+                        <p>Quando a marcha lenta é mais lenta que a sua vontade de viver. Analisamos a fúria ao volante.</p>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-thumbnail" style="background-image: url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');">
+                        <div class="play-btn"></div>
+                    </div>
+                    <div class="video-info">
+                        <span class="tag">Episódio 2</span>
+                        <h3>A Reunião Interminável</h3>
+                        <p>A dissecção clínica do e-mail que magicamente se transformou em 3 horas perdidas.</p>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-thumbnail" style="background-image: url('https://images.unsplash.com/photo-1555421689-d68471e189f2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');">
+                        <div class="play-btn"></div>
+                    </div>
+                    <div class="video-info">
+                        <span class="tag">Episódio 3</span>
+                        <h3>Notificações do Slack</h3>
+                        <p>O som do pesadelo. Como gerir a micro-ansiedade do ping constante logo de manhã.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- BRANDED CONTENT (ARTIGOS) -->
+        <section class="articles-section">
+            <h2 class="section-title">Sobreviver (com ajuda)</h2>
+            <div class="articles-grid">
+                
+                <!-- Artigo 1 -->
+                <div class="article-card">
+                    <div class="article-image" style="background-image: url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="article-content">
+                        <div class="sponsor-tag">Conteúdo Patrocinado por MARCA AUTO</div>
+                        <h3>As segundas-feiras são péssimas, mas ao menos existe um habitáculo à prova de som</h3>
+                        <p>Se o mundo lá fora está um caos — e a fila para a ponte não anda —, no interior deste novo SUV reina o cancelamento de ruído e a paz de espírito. Descubra como a sua viagem matinal pode virar um spa.</p>
+                        <a href="#" class="read-more">Ler artigo completo &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Artigo 2 -->
+                <div class="article-card">
+                    <div class="article-image" style="background-image: url('https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="article-content">
+                        <div class="sponsor-tag">Conteúdo Patrocinado por MARCA SAÚDE</div>
+                        <h3>O seu chefe não lhe dá descanso, mas pelo menos há quem trate do seu coração</h3>
+                        <p>A tensão arterial subiu só de olhar para a caixa de entrada? Exploramos o impacto físico do stress matinal e revelamos o plano de saúde perfeito para se precaver contra as dores de cabeça corporativas.</p>
+                        <a href="#" class="read-more">Ler artigo completo &rarr;</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <div class="footer-logo">ODEIO SEGUNDAS-FEIRAS!</div>
+        <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 10px;">Uma proposta Estúdio P — Estratégia de Branded Content</p>
+    </footer>
+
+    <script>
+        // Configuração Inicial do Gráfico
+        const ctx = document.getElementById('barometerChart').getContext('2d');
+        Chart.defaults.font.family = "'Poppins', sans-serif";
+        Chart.defaults.color = '#666';
+
+        let barometerData = {
+            labels: ['Trânsito Caótico', 'Reuniões Inúteis', 'Caixa de E-mail Cheia', 'Despertador Cedo', 'Colegas Barulhentos'],
+            datasets: [{
+                label: 'Nº de Votos',
+                data: [450, 380, 290, 210, 150],
+                backgroundColor: [
+                    '#be0a0a',
+                    '#e53935',
+                    '#ef5350',
+                    '#e57373',
+                    '#ffcdd2'
+                ],
+                borderRadius: 6,
+                barPercentage: 0.7
+            }]
+        };
+
+        const config = {
+            type: 'bar',
+            data: barometerData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y', // Gráfico de barras horizontais
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#1a1a1a',
+                        padding: 12,
+                        titleFont: { size: 14, family: "'Poppins', sans-serif" },
+                        bodyFont: { size: 14, family: "'Poppins', sans-serif" },
+                        displayColors: false
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: '#f0f0f0'
+                        },
+                        ticks: {
+                            font: {
+                                weight: '600'
+                            },
+                            color: '#1a1a1a'
+                        }
+                    }
+                },
+                animation: {
+                    duration: 1000,
+                    easing: 'easeOutQuart'
+                }
+            }
+        };
+
+        const barometerChart = new Chart(ctx, config);
+
+        // Função de Interação Catártica (Submissão)
+        function submitOdio() {
+            const input = document.getElementById('odioInput');
+            const shredder = document.getElementById('shredder');
+            
+            if (input.value.trim() === '') return;
+
+            // Ativar a animação
+            input.parentElement.classList.add('is-shredding');
+            shredder.style.opacity = '1';
+
+            setTimeout(() => {
+                // Atualizar gráfico dinamicamente (simulação)
+                const newVal = input.value.trim();
+                
+                // Remover o último e adicionar o novo no topo
+                barometerChart.data.labels.pop();
+                barometerChart.data.labels.unshift(newVal.length > 20 ? newVal.substring(0, 20) + '...' : newVal);
+                
+                barometerChart.data.datasets[0].data.pop();
+                barometerChart.data.datasets[0].data.unshift(Math.floor(Math.random() * (600 - 400 + 1)) + 400); // Valor alto aleatório
+                
+                barometerChart.update();
+
+                // Reset do estado
+                input.value = '';
+                input.parentElement.classList.remove('is-shredding');
+                shredder.style.opacity = '0';
+                
+            }, 1000);
+        }
+
+        // Permitir envio com tecla Enter
+        document.getElementById('odioInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                submitOdio();
+            }
+        });
+    </script>
+</body>
+</html>
