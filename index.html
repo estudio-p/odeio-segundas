@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Odeio segundas-feiras! | Estúdio P</title>
-    <!-- Carregar fontes -->
-<link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Rubik+Mono+One&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
@@ -21,11 +20,12 @@
             --transition: all 0.3s ease;
         }
 
-        /* Usando a fonte pedida (fallback para Anton ou impacto) */
+        /* Se a Pagkaki Full estiver instalada no sistema, é usada.
+           Caso contrário, o font-family nos títulos vai recorrer à Rubik Mono One.
+        */
         @font-face {
             font-family: 'Pagkaki Full';
-            src: local('Pagkaki Full'), local('Impact');
-            font-weight: bold;
+            src: local('Pagkaki Full');
         }
 
         * {
@@ -42,9 +42,9 @@
             overflow-x: hidden;
         }
 
+        /* Títulos: Pagkaki Full primeiro, Rubik Mono One como fallback */
         h1, h2, h3, h4, .title-font {
-            /* Fallback font system to approximate Pagkaki Full */
-            font-family: 'Pagkaki Full', 'Rubik Mono One', monospace;
+            font-family: 'Pagkaki Full', 'Rubik Mono One', sans-serif;
             text-transform: uppercase;
             letter-spacing: 1px;
             line-height: 1.1;
@@ -72,7 +72,11 @@
             gap: 10px;
         }
 
-        .logo-text { font-family: 'Poppins'; }
+        .logo-text { 
+            font-family: 'Poppins', sans-serif; 
+            text-transform: none;
+            letter-spacing: normal;
+        }
         
         .container {
             max-width: 1200px;
@@ -87,7 +91,7 @@
         }
 
         .hero h1 {
-            font-size: clamp(3rem, 8vw, 6rem);
+            font-size: clamp(2.5rem, 6vw, 5rem);
             color: var(--text-dark);
             margin-bottom: 20px;
         }
@@ -118,7 +122,7 @@
         }
 
         .barometer-header h2 {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             margin-bottom: 10px;
         }
 
@@ -201,7 +205,7 @@
         }
 
         .section-title {
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin-bottom: 40px;
             display: flex;
             align-items: center;
@@ -413,10 +417,11 @@
         }
         
         .footer-logo {
-            font-family: 'Pagkaki Full', 'Anton', sans-serif;
+            font-family: 'Pagkaki Full', 'Rubik Mono One', sans-serif;
             font-size: 2rem;
             color: var(--white);
             margin-bottom: 10px;
+            text-transform: uppercase;
         }
 
         @media (max-width: 768px) {
@@ -425,6 +430,12 @@
             }
             .barometer-section {
                 padding: 30px 20px;
+            }
+            .hero h1 {
+                font-size: clamp(2rem, 8vw, 3rem);
+            }
+            .section-title {
+                font-size: 2rem;
             }
         }
     </style>
@@ -439,13 +450,11 @@
 
     <div class="container">
         
-        <!-- HERO -->
         <section class="hero">
             <h1>Odeio <span>segundas-feiras!</span></h1>
             <p>A terapia de choque que transforma a ansiedade urbana e os nossos maiores ódios de estimação num exercício de autoconhecimento (e na rampa de lançamento para a solução).</p>
         </section>
 
-        <!-- BARÓMETRO DA IRRITAÇÃO -->
         <section class="barometer-section">
             <div class="barometer-header">
                 <h2>Barómetro da Irritação</h2>
@@ -463,7 +472,6 @@
             </div>
         </section>
 
-        <!-- VODCAST PLAYLIST -->
         <section class="vodcast-section">
             <h2 class="section-title">O Confessionário</h2>
             <div class="grid-playlist">
@@ -504,12 +512,10 @@
             </div>
         </section>
 
-        <!-- BRANDED CONTENT (ARTIGOS) -->
         <section class="articles-section">
             <h2 class="section-title">Sobreviver (com ajuda)</h2>
             <div class="articles-grid">
                 
-                <!-- Artigo 1 -->
                 <div class="article-card">
                     <div class="article-image" style="background-image: url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');"></div>
                     <div class="article-content">
@@ -520,7 +526,6 @@
                     </div>
                 </div>
 
-                <!-- Artigo 2 -->
                 <div class="article-card">
                     <div class="article-image" style="background-image: url('https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');"></div>
                     <div class="article-content">
